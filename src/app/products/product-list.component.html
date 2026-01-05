@@ -1,0 +1,89 @@
+<ActionBar title="Lista Produktów" class="action-bar">
+  <ActionItem (tap)="navigateToSettings()" ios.position="right" android.position="actionBar">
+    <Label text="⚙️" class="action-item"></Label>
+  </ActionItem>
+</ActionBar>
+
+<ScrollView>
+  <StackLayout class="page">
+    <!-- Loading indicator -->
+    <ActivityIndicator *ngIf="isLoading()" busy="true" class="loading"></ActivityIndicator>
+
+    <!-- Error message -->
+    <Label
+      *ngIf="error() && !isLoading()"
+      [text]="error()"
+      class="error-message"
+      textWrap="true"
+    ></Label>
+
+    <!-- Products list -->
+    <StackLayout *ngIf="!isLoading() && !error()" class="products-container">
+      <Label
+        *ngIf="products().length === 0"
+        text="Brak produktów. Dodaj pierwszy produkt!"
+        class="empty-message"
+        textWrap="true"
+      ></Label>
+
+      <StackLayout *ngFor="let product of products()" class="product-item">
+        <GridLayout columns="auto, *, auto" rows="auto, auto, auto" class="product-card">
+          <!-- Product Image Thumbnail -->
+          <Image
+            *ngIf="product.imageUrl"
+            col="0"
+            row="0"
+            rowSpan="2"
+            [src]="getImageSource(product.imageUrl)"
+            class="product-thumbnail"
+            stretch="aspectFill"
+          ></Image>
+          <Label
+            *ngIf="!product.imageUrl"
+            col="0"
+            row="0"
+            rowSpan="2"
+            text="📷"
+            class="product-thumbnail-placeholder"
+          ></Label>
+          
+          <StackLayout col="1" row="0" class="product-info">
+            <Label [text]="product.name" class="product-name"></Label>
+            <Label [text]="'Kod: ' + product.code" class="product-code"></Label>
+          </StackLayout>
+          <Label
+            col="2"
+            row="0"
+            [text]="getStatusText(product.status)"
+            [backgroundColor]="getStatusColor(product.status)"
+            class="status-badge"
+          ></Label>
+          <Label
+            col="1"
+            colSpan="2"
+            row="1"
+            [text]="product.description || 'Brak opisu'"
+            class="product-description"
+            textWrap="true"
+          ></Label>
+          <Button
+            col="0"
+            colSpan="3"
+            row="2"
+            [text]="'Szczegóły'"
+            (tap)="navigateToDetail(product.id!)"
+            class="btn btn-primary"
+          ></Button>
+        </GridLayout>
+      </StackLayout>
+    </StackLayout>
+
+    <!-- Add product button -->
+    <Button
+      *ngIf="!isLoading()"
+      text="➕ Dodaj Produkt"
+      (tap)="navigateToAdd()"
+      class="btn btn-primary btn-large"
+    ></Button>
+  </StackLayout>
+</ScrollView>

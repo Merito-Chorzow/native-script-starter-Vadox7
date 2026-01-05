@@ -1,0 +1,68 @@
+<ActionBar title="Ustawienia" class="action-bar">
+  <NavigationButton text="Wstecz" android.systemIcon="ic_menu_back"></NavigationButton>
+</ActionBar>
+
+<ScrollView>
+  <StackLayout class="page settings-container">
+    <Label text="Preferencje" class="section-title"></Label>
+
+    <!-- Offline Mode -->
+    <StackLayout class="setting-item">
+      <GridLayout columns="*, auto" rows="auto, auto">
+        <Label col="0" row="0" text="Tryb offline" class="setting-label"></Label>
+        <Label
+          col="1"
+          row="0"
+          [text]="offlineMode() ? 'Włączony' : 'Wyłączony'"
+          class="setting-value"
+        ></Label>
+        <Label
+          col="0"
+          colSpan="2"
+          row="1"
+          text="Zapisz dane lokalnie do użycia bez połączenia z internetem"
+          class="setting-description"
+          textWrap="true"
+        ></Label>
+      </GridLayout>
+      <Switch [checked]="offlineMode()" (checkedChange)="toggleOfflineMode()"></Switch>
+    </StackLayout>
+
+    <!-- Notifications -->
+    <StackLayout class="setting-item">
+      <GridLayout columns="*, auto" rows="auto, auto">
+        <Label
+          col="0"
+          row="0"
+          text="Powiadomienia"
+          class="setting-label"
+        ></Label>
+        <Label
+          col="1"
+          row="0"
+          [text]="notificationsEnabled() ? 'Włączone' : 'Wyłączone'"
+          class="setting-value"
+        ></Label>
+        <Label
+          col="0"
+          colSpan="2"
+          row="1"
+          text="Otrzymuj powiadomienia o aktualizacjach produktów"
+          class="setting-description"
+          textWrap="true"
+        ></Label>
+      </GridLayout>
+      <Switch
+        [checked]="notificationsEnabled()"
+        (checkedChange)="toggleNotifications()"
+      ></Switch>
+    </StackLayout>
+
+    <!-- App Info -->
+    <StackLayout class="info-section">
+      <Label text="Informacje o aplikacji" class="section-title"></Label>
+      <Label text="Wersja: 1.0.0" class="info-text"></Label>
+      <Label text="Aplikacja do zarządzania produktami" class="info-text"></Label>
+    </StackLayout>
+  </StackLayout>
+</ScrollView>
